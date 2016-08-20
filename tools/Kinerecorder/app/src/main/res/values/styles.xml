@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MainTitle">
+        <item name="android:textSize">16pt</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
 </resources>
