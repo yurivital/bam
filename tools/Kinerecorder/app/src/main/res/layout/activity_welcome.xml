@@ -10,18 +10,20 @@
     tools:context="org.appfields.kinerecorder.WelcomeActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
+            style="@style/MainTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/MainTitle"
             android:text="@string/text_record" />
+
         <view
             android:layout_width="match_parent"
-            android:layout_height="2dp" android:background="@color/colorPrimaryDark" >
+            android:layout_height="2dp"
+            android:background="@color/colorPrimaryDark">
 
         </view>
 
@@ -36,12 +38,11 @@
             android:inputType="text" />
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatButton
-android:layout_alignParentBottom="true"
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/text_record"
-        android:layout_margin="5dp" />
-
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:text="@string/text_record" />
 
 </RelativeLayout>

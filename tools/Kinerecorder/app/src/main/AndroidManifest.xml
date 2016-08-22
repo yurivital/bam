@@ -14,14 +14,16 @@
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <service
-            android:name="org.appfields.kinerecorder.WriterService"
-            android:exported="false"></service>
 
+        <service
+            android:name=".WriterService"
+            android:exported="false" />
+
+        <activity android:name=".RecordingActivity"></activity>
     </application>
 
 </manifest>
