@@ -2,4 +2,6 @@
     <string name="app_name">Kinerecorder</string>
     <string name="text_cow_type">Race de la vache</string>
     <string name="text_record">Enregistrer</string>
+    <string name="text_recording">Enregistrement</string>
+    <string name="text_stop">Arrêter</string>
 </resources>

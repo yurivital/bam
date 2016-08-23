@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.Timer;
@@ -15,7 +16,6 @@ import java.util.TimerTask;
 public class RecordingActivity extends AppCompatActivity {
 
     private static int capacity = 2000;
-
     private static SensorEvent[] data = new SensorEvent[capacity];
     private static int data_pointer = 0;
 
@@ -30,7 +30,7 @@ public class RecordingActivity extends AppCompatActivity {
                 WriterService.startActionPersist(getApplicationContext(), data.clone());
             }
 
-            data_pointer = (short) (++data_pointer % capacity);
+            data_pointer = (++data_pointer % capacity);
 
         }
 
@@ -86,6 +86,11 @@ public class RecordingActivity extends AppCompatActivity {
                                       }
                                   },
                 0, 1000);
+    }
+
+    public void  OnStopRecord(View v)
+    {
+
     }
 
     private void displayAcceleration(float x, float y, float z) {
