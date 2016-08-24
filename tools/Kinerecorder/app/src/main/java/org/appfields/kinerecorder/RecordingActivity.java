@@ -1,5 +1,6 @@
 package org.appfields.kinerecorder;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -90,7 +91,9 @@ public class RecordingActivity extends AppCompatActivity {
 
     public void  OnStopRecord(View v)
     {
-
+        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void displayAcceleration(float x, float y, float z) {

@@ -20,12 +20,13 @@
             android:layout_height="wrap_content"
             android:text="@string/text_record" />
 
-        <view
+        <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:background="@color/colorPrimaryDark">
 
-        </view>
+        </View>
 
         <TextView
             android:layout_width="match_parent"
@@ -33,6 +34,7 @@
             android:text="@string/text_cow_type" />
 
         <EditText
+            android:id="@+id/input_cow_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text" />
@@ -43,6 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="5dp"
+        android:onClick="StartRecord"
         android:text="@string/text_record" />
-
 </RelativeLayout>
