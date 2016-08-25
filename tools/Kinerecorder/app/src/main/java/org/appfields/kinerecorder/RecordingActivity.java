@@ -15,9 +15,19 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class RecordingActivity extends AppCompatActivity {
-
+    /**
+     * Data buffer capacity
+     */
     private static int capacity = 2000;
+
+    /**
+     * Data buffer
+     */
     private static SensorEvent[] data = new SensorEvent[capacity];
+
+    /**
+     * Index of last data
+     */
     private static int data_pointer = 0;
 
     SensorEventListener listener = new SensorEventListener() {
@@ -27,12 +37,10 @@ public class RecordingActivity extends AppCompatActivity {
             int modulo = data_pointer + 1 % capacity;
             Log.v("Tracker", "Pointer size =" + data_pointer + " Modulo = " + modulo);
             if (data_pointer > 0 && modulo == capacity) {
-                Log.i("SensorTraker", "Ask for persit data");
+                Log.i("SensorTraker", "Ask for persisting data");
                 WriterService.startActionPersist(getApplicationContext(), data.clone());
             }
-
             data_pointer = (++data_pointer % capacity);
-
         }
 
         @Override
@@ -49,7 +57,7 @@ public class RecordingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //      Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // setSupportActionBar(toolbar);
         setTitle("Acquisition du signal");
 
@@ -82,15 +90,13 @@ public class RecordingActivity extends AppCompatActivity {
 
                                               }
                                           });
-
-
                                       }
                                   },
                 0, 1000);
     }
 
-    public void  OnStopRecord(View v)
-    {
+    public void OnStopRecord(View v) {
+        WriterService.startActionPersist(getApplicationContext(), data.clone());
         Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(intent);
         finish();
