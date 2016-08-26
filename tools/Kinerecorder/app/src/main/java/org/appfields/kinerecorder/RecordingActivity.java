@@ -49,6 +49,7 @@ public class RecordingActivity extends AppCompatActivity {
         }
     };
 
+    private TextView spinner;
     private TextView valueX;
     private TextView valueY;
     private TextView valueZ;
@@ -59,9 +60,12 @@ public class RecordingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // setSupportActionBar(toolbar);
-        setTitle("Acquisition du signal");
+        setTitle(getText(R.string.text_recording));
 
         setContentView(R.layout.activity_recording);
+        TextView textView = (TextView) findViewById(R.id.input_cow_type);
+        textView.setText(KinerecorderApp.cowType);
+        spinner = (TextView) findViewById(R.id.spinner);
         /*
         this.valueX = (TextView) findViewById(R.id.AccelerationX);
         this.valueY = (TextView) findViewById(R.id.AccelerationY);
@@ -102,8 +106,19 @@ public class RecordingActivity extends AppCompatActivity {
         finish();
     }
 
+    int dots = 0;
+
     private void displayAcceleration(float x, float y, float z) {
         String format = "%1s";
+
+        dots = (++dots) % 3;
+        String dottext = "";
+        for (int i = 0; i < dots; i++) {
+            dottext += "*";
+        }
+        spinner.setText(dottext);
+
+
     /*    this.valueX.setText(String.format(format, x));
         this.valueY.setText(String.format(format, y));
         this.valueZ.setText(String.format(format, z));

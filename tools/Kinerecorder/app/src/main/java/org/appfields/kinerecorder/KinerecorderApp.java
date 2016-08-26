@@ -12,4 +12,8 @@ public class KinerecorderApp extends Application {
      */
     public static SensorEvent[] data;
 
+    public static String cowType = "";
+
+    public static String filePath="";
+
 }

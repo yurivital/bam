@@ -12,9 +12,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 /**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p/>
  * Write data into local folder
  */
 public class WriterService extends IntentService {
@@ -63,15 +60,20 @@ public class WriterService extends IntentService {
      */
     private void handleActionPersist(SensorEvent[] datas) {
         String filename = "data_raw.txt";
+
         Log.v("handleActionPersist", "Retrieve data");
         int count = 0;
 
         try {
             File path = Environment.getExternalStoragePublicDirectory((Environment.DIRECTORY_DOWNLOADS));
             File file = new File(path, filename);
+            boolean newFile = !file.exists();
 
             FileOutputStream fos = new FileOutputStream(file, true);
             DataOutputStream dos = new DataOutputStream(fos);
+            if (newFile) {
+                dos.writeChars(KinerecorderApp.cowType);
+            }
 
             for (int i = 0; i < datas.length; i++) {
                 SensorEvent event = datas[i];
@@ -94,7 +96,5 @@ public class WriterService extends IntentService {
             Log.e(ACTION_PERSIST, "Error in writing data", e);
             e.printStackTrace();
         }
-
-
     }
 }
