@@ -10,6 +10,7 @@
     tools:context="org.appfields.kinerecorder.RecordingActivity">
 
     <LinearLayout
+        android:layout_alignParentTop="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -29,10 +30,12 @@
             android:background="@color/colorPrimaryDark" />
 
        <TextView
+           android:textAlignment="center"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/spinner"
-           android:text="*****"
+           android:text="*"
+           style="@style/MainTitle"
 
            />
     </LinearLayout>

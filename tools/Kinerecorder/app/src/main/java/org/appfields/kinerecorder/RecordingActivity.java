@@ -14,6 +14,9 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Activity performing the recording of motions sensors values
+ */
 public class RecordingActivity extends AppCompatActivity {
     /**
      * Data buffer capacity
@@ -30,6 +33,9 @@ public class RecordingActivity extends AppCompatActivity {
      */
     private static int data_pointer = 0;
 
+    /**
+     * Listen sensor values changes and write the to file
+     */
     SensorEventListener listener = new SensorEventListener() {
         @Override
         public synchronized void onSensorChanged(SensorEvent event) {
@@ -49,11 +55,13 @@ public class RecordingActivity extends AppCompatActivity {
         }
     };
 
+
     private TextView spinner;
     private TextView valueX;
     private TextView valueY;
     private TextView valueZ;
     private Timer timer = new Timer();
+    int dots = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +74,7 @@ public class RecordingActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.input_cow_type);
         textView.setText(KinerecorderApp.cowType);
         spinner = (TextView) findViewById(R.id.spinner);
+
         /*
         this.valueX = (TextView) findViewById(R.id.AccelerationX);
         this.valueY = (TextView) findViewById(R.id.AccelerationY);
@@ -99,19 +108,29 @@ public class RecordingActivity extends AppCompatActivity {
                 0, 1000);
     }
 
+    @Override
+    public void onBackPressed() {
+        OnStopRecord(null);
+    }
+
+    /**
+     * Stop the current record and go back to welcome page
+     *
+     * @param v
+     */
     public void OnStopRecord(View v) {
+        listener = null;
         WriterService.startActionPersist(getApplicationContext(), data.clone());
         Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(intent);
         finish();
     }
 
-    int dots = 0;
 
     private void displayAcceleration(float x, float y, float z) {
         String format = "%1s";
 
-        dots = (++dots) % 3;
+        dots = (++dots) % 7;
         String dottext = "";
         for (int i = 0; i < dots; i++) {
             dottext += "*";
