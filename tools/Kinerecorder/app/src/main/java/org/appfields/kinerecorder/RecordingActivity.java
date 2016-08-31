@@ -55,7 +55,8 @@ public class RecordingActivity extends AppCompatActivity {
         }
     };
 
-
+    private SensorManager sensorManager;
+    private Sensor sensor;
     private TextView spinner;
     private TextView valueX;
     private TextView valueY;
@@ -80,8 +81,8 @@ public class RecordingActivity extends AppCompatActivity {
         this.valueY = (TextView) findViewById(R.id.AccelerationY);
         this.valueZ = (TextView) findViewById(R.id.AccelerationZ);
         */
-        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this.listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -119,6 +120,7 @@ public class RecordingActivity extends AppCompatActivity {
      * @param v
      */
     public void OnStopRecord(View v) {
+        sensorManager.unregisterListener(listener, sensor);
         listener = null;
         WriterService.startActionPersist(getApplicationContext(), data.clone());
         Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
