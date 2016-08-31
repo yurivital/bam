@@ -4,4 +4,7 @@
     <string name="text_record">Enregistrer</string>
     <string name="text_recording">Enregistrement</string>
     <string name="text_stop">Arreter</string>
+    <string name="recording_started">Enregistrement en cours</string>
+    <string name="recording_service_label">Kinerecorder</string>
+    <string name="recording_service_stopped">Enregistrement stoppé</string>
 </resources>
