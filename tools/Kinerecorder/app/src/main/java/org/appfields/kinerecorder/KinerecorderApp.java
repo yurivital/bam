@@ -1,6 +1,7 @@
 package org.appfields.kinerecorder;
 
 import android.app.Application;
+import android.app.Service;
 import android.hardware.SensorEvent;
 
 /**
@@ -20,6 +21,22 @@ public class KinerecorderApp extends Application {
     /**
      * Store the value of current recording file path
      */
-    public static String filePath="";
+    public static String filePath = "";
 
+    /**
+     * Store the instance of the recording service
+     */
+    private Service recordingService;
+
+    public void startService() {
+
+    }
+
+    public void stopService() {
+
+    }
+
+    public boolean serviceIsRunning() {
+        return false
+    }
 }
