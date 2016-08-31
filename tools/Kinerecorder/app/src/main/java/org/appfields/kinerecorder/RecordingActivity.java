@@ -27,7 +27,7 @@ public class RecordingActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_recording);
         TextView textView = (TextView) findViewById(R.id.input_cow_type);
-        textView.setText(KinerecorderApp.cowType);
+        textView.setText(Kinerecorder.cowType);
         spinner = (TextView) findViewById(R.id.spinner);
 
 
@@ -58,7 +58,7 @@ public class RecordingActivity extends AppCompatActivity {
      * @param v
      */
     public void OnStopRecord(View v) {
-        KinerecorderApp.stopRecording();
+        Kinerecorder.stopRecording();
 
 
         Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);

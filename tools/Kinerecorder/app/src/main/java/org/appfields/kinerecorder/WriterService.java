@@ -37,22 +37,22 @@ public class WriterService extends IntentService {
     // TODO: Customize helper method
     public static void startActionPersist(Context context, SensorEvent[] datas) {
 
-        KinerecorderApp.data = datas;
+        Kinerecorder.data = datas;
         Intent intent = new Intent(context, WriterService.class);
         intent.setAction(ACTION_PERSIST);
         context.startService(intent);
     }
 
     protected static File buildPath() {
-        if (KinerecorderApp.filePath.isEmpty()) {
+        if (Kinerecorder.filePath.isEmpty()) {
             File basePath = Environment.getExternalStoragePublicDirectory((Environment.DIRECTORY_DOWNLOADS));
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmms");
             String now = formatter.format(new Date());
-            File filePath = new File(basePath, String.format("%1s_%2s.txt", KinerecorderApp.cowType, now));
-            KinerecorderApp.filePath = filePath.toString();
+            File filePath = new File(basePath, String.format("%1s_%2s.txt", Kinerecorder.cowType, now));
+            Kinerecorder.filePath = filePath.toString();
             Log.i(ACTION_PERSIST, "Writing into " + filePath);
         }
-        return new File(KinerecorderApp.filePath);
+        return new File(Kinerecorder.filePath);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class WriterService extends IntentService {
             final String action = intent.getAction();
             if (ACTION_PERSIST.equals(action)) {
                 Log.v(ACTION_PERSIST, "Retrieve data");
-                final SensorEvent[] datas = KinerecorderApp.data;
+                final SensorEvent[] datas = Kinerecorder.data;
                 Log.v(ACTION_PERSIST, "data len " + datas.length);
                 handleActionPersist(datas);
             }
@@ -87,7 +87,7 @@ public class WriterService extends IntentService {
             FileOutputStream fos = new FileOutputStream(file, true);
             DataOutputStream dos = new DataOutputStream(fos);
             if (newFile) {
-                dos.writeChars(KinerecorderApp.cowType);
+                dos.writeChars(Kinerecorder.cowType);
             }
 
             for (int i = 0; i < datas.length; i++) {
