@@ -24,8 +24,8 @@ public class WelcomeActivity extends AppCompatActivity {
     public void StartRecord(View v) {
         KinerecorderApp.filePath = "";
         KinerecorderApp.cowType = cow_type.getText().toString();
-        KinerecorderApp app = (KinerecorderApp) getApplication();
-        app.startRecording();
+        KinerecorderApp.setContext(getApplicationContext());
+        KinerecorderApp.startRecording();
         Intent intent = new Intent(getApplicationContext(), RecordingActivity.class);
         startActivity(intent);
         finish();

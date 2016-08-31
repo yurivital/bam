@@ -1,13 +1,15 @@
 package org.appfields.kinerecorder;
 
-import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.SensorEvent;
 
 /**
  * Provide fundamental function for Kinerecorder app
  */
-public class KinerecorderApp extends Application {
+public class KinerecorderApp {
+
+
     /**
      * Store the values of current set of datas
      */
@@ -22,23 +24,31 @@ public class KinerecorderApp extends Application {
      * Store the value of current recording file path
      */
     public static String filePath = "";
-    Intent serviceIntent = new Intent(getApplicationContext(), RecordingService.class);
+
+    private static Context context;
+    private static Intent serviceIntent;
+
     /**
      * Store the instance of the recording service
      */
-    private RecordingService recordingService;
+    private static RecordingService recordingService;
 
-    public void startRecording() {
-        startService(serviceIntent);
-        recordingService.start();
+
+    public static void setContext(Context ctx) {
+        context = ctx;
     }
 
-    public void stopRecording() {
-        stopService(serviceIntent);
 
+    public static  void startRecording() {
+        serviceIntent = new Intent(context, RecordingService.class);
+        context.startService(serviceIntent);
     }
 
-    public boolean isRecording() {
+    public  static void stopRecording() {
+        context.stopService(serviceIntent);
+    }
+
+    public  static boolean isRecording() {
         return false;
     }
 }

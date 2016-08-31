@@ -55,14 +55,15 @@ public class RecordingService extends Service {
     @Override
     public void onCreate() {
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
+        recording = new Recording(getBaseContext());
         // Display a notification about us starting.  We put an icon in the status bar.
         showNotification();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("LocalService", "Received start id " + startId + ": " + intent);
+        Log.i("RecordService", "Received start id " + startId + ": " + intent);
+
         recording.start();
         return START_NOT_STICKY;
     }
@@ -76,15 +77,7 @@ public class RecordingService extends Service {
         // Tell the user we stopped.
         Toast.makeText(this, R.string.recording_service_stopped, Toast.LENGTH_SHORT).show();
     }
-
-
-    public void start() {
-        notification = new Notification();
-        recording = new Recording(getApplicationContext());
-        recording.start();
-        startForeground(BIND_IMPORTANT, notification);
-
-    }
+    
 
     /**
      * Show a notification while this service is running.

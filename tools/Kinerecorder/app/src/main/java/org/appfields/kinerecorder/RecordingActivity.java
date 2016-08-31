@@ -58,8 +58,8 @@ public class RecordingActivity extends AppCompatActivity {
      * @param v
      */
     public void OnStopRecord(View v) {
-        KinerecorderApp app = (KinerecorderApp) getApplication();
-        app.startRecording();
+        KinerecorderApp.stopRecording();
+
 
         Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(intent);
