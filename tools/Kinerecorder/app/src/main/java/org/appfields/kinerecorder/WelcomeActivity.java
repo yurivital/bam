@@ -20,7 +20,9 @@ public class WelcomeActivity extends AppCompatActivity {
         cow_type = (EditText) findViewById(id.input_cow_type);
     }
 
+
     public void StartRecord(View v) {
+        KinerecorderApp.filePath = "";
         KinerecorderApp.cowType = cow_type.getText().toString();
         Intent intent = new Intent(getApplicationContext(), RecordingActivity.class);
         startActivity(intent);

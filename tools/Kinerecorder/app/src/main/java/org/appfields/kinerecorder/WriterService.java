@@ -10,7 +10,7 @@ import android.util.Log;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -58,11 +58,12 @@ public class WriterService extends IntentService {
 
     protected static File buildPath() {
         if (KinerecorderApp.filePath.isEmpty()) {
-            File basePath = Environment.getExternalStoragePublicDirectory((Environment.DIRECTORY_DOCUMENTS));
-            File cowPath = new File(basePath, KinerecorderApp.cowType);
-            String now = DateFormat.getDateInstance().format(new Date());
-            File filePath = new File(cowPath, String.format("data_%s.txt", now));
+            File basePath = Environment.getExternalStoragePublicDirectory((Environment.DIRECTORY_DOWNLOADS));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmms");
+            String now = formatter.format(new Date());
+            File filePath = new File(basePath, String.format("%1s_%2s.txt", KinerecorderApp.cowType, now));
             KinerecorderApp.filePath = filePath.toString();
+            Log.i(ACTION_PERSIST, "Writing into " + filePath);
         }
         return new File(KinerecorderApp.filePath);
     }
@@ -79,7 +80,8 @@ public class WriterService extends IntentService {
 
         try {
             File path = buildPath();
-            File file = new File(path, filename);
+            //   File file = new File(path, filename);
+            File file = buildPath();
             boolean newFile = !file.exists();
 
             FileOutputStream fos = new FileOutputStream(file, true);
