@@ -43,6 +43,18 @@ public class WriterService extends IntentService {
         context.startService(intent);
     }
 
+    protected static File buildPath() {
+        if (KinerecorderApp.filePath.isEmpty()) {
+            File basePath = Environment.getExternalStoragePublicDirectory((Environment.DIRECTORY_DOWNLOADS));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmms");
+            String now = formatter.format(new Date());
+            File filePath = new File(basePath, String.format("%1s_%2s.txt", KinerecorderApp.cowType, now));
+            KinerecorderApp.filePath = filePath.toString();
+            Log.i(ACTION_PERSIST, "Writing into " + filePath);
+        }
+        return new File(KinerecorderApp.filePath);
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
@@ -54,18 +66,6 @@ public class WriterService extends IntentService {
                 handleActionPersist(datas);
             }
         }
-    }
-
-    protected static File buildPath() {
-        if (KinerecorderApp.filePath.isEmpty()) {
-            File basePath = Environment.getExternalStoragePublicDirectory((Environment.DIRECTORY_DOWNLOADS));
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmms");
-            String now = formatter.format(new Date());
-            File filePath = new File(basePath, String.format("%1s_%2s.txt", KinerecorderApp.cowType, now));
-            KinerecorderApp.filePath = filePath.toString();
-            Log.i(ACTION_PERSIST, "Writing into " + filePath);
-        }
-        return new File(KinerecorderApp.filePath);
     }
 
     /**
