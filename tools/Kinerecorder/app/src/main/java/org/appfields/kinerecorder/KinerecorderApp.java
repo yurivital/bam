@@ -1,7 +1,6 @@
 package org.appfields.kinerecorder;
 
 import android.app.Application;
-import android.app.Service;
 import android.hardware.SensorEvent;
 
 /**
@@ -26,17 +25,18 @@ public class KinerecorderApp extends Application {
     /**
      * Store the instance of the recording service
      */
-    private Service recordingService;
+    private RecordingService recordingService;
 
-    public void startService() {
 
+    public void startRecording() {
+        recordingService.start();
     }
 
-    public void stopService() {
-
+    public void stopRecording() {
+        recordingService.start();
     }
 
-    public boolean serviceIsRunning() {
-        return false
+    public boolean isRecording() {
+        return false;
     }
 }

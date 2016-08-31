@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 public class RecordingService extends Service {
 
     Notification notification;
+    Recording recording;
+
     /**
      * Return the communication channel to the service.  May return null if
      * clients can not bind to the service.  The returned
@@ -40,16 +42,17 @@ public class RecordingService extends Service {
 
     }
 
-    public  void start()
-    {
+    public void start() {
         notification = new Notification();
-
-        startForeground(BIND_IMPORTANT, notification );
+        recording = new Recording(getApplicationContext());
+        recording.start();
+        startForeground(BIND_IMPORTANT, notification);
 
     }
-    public void stop()
-    {
 
+    public void stop() {
+        recording.stop();
+        stopSelf();
     }
 
 
