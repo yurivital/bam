@@ -9,6 +9,9 @@ import android.widget.EditText;
 import static org.appfields.kinerecorder.R.id;
 import static org.appfields.kinerecorder.R.layout;
 
+/**
+ * Gather information of the recording session and start the recording service
+ */
 public class WelcomeActivity extends AppCompatActivity {
 
     private EditText cow_type;
@@ -21,11 +24,12 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Start the recording service and go to the Recording Activity
+     * @param v Sender view
+     */
     public void StartRecord(View v) {
-        KinerecorderApp.filePath = "";
-        KinerecorderApp.cowType = cow_type.getText().toString();
-        KinerecorderApp.setContext(getApplicationContext());
-        KinerecorderApp.startRecording();
+        Kinerecorder.startRecording(getApplicationContext(),cow_type.getText().toString());
         Intent intent = new Intent(getApplicationContext(), RecordingActivity.class);
         startActivity(intent);
         finish();

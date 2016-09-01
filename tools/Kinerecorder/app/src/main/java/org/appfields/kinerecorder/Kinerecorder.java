@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.hardware.SensorEvent;
 
 /**
- * Provide fundamental function for Kinerecorder app
+ * Expose the application API
  */
-public class KinerecorderApp {
-
+public class Kinerecorder {
 
     /**
      * Store the values of current set of datas
@@ -24,31 +23,35 @@ public class KinerecorderApp {
      * Store the value of current recording file path
      */
     public static String filePath = "";
-
+    /**
+     * Store the instance of current application context
+     */
     private static Context context;
+    /**
+     * Store the instance of the last created recording service Intent
+     */
     private static Intent serviceIntent;
 
+
     /**
-     * Store the instance of the recording service
+     * Start the recoding service.
+     *
+     * @param ctx Instance of application context
+     * @param cow Value of cow type
      */
-    private static RecordingService recordingService;
-
-
-    public static void setContext(Context ctx) {
+    public static void startRecording(Context ctx, String cow) {
         context = ctx;
-    }
-
-
-    public static  void startRecording() {
+        cowType = cow;
+        filePath = "";
         serviceIntent = new Intent(context, RecordingService.class);
         context.startService(serviceIntent);
     }
 
-    public  static void stopRecording() {
+    /**
+     * Stop the recording service
+     */
+    public static void stopRecording() {
         context.stopService(serviceIntent);
     }
 
-    public  static boolean isRecording() {
-        return false;
-    }
 }
