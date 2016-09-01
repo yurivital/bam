@@ -50,6 +50,11 @@ public class Recording {
             if (data_pointer > 0 && modulo == capacity) {
                 Log.i("SensorTraker", "Ask for persisting data");
                 WriterService.startActionPersist(context, data.clone());
+                // clear array
+                for(int i=0; i< data.length;i++)
+                {
+                    data[i] = null;
+                }
             }
             data_pointer = (++data_pointer % capacity);
         }

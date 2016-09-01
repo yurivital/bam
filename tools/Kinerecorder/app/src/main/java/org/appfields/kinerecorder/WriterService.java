@@ -19,22 +19,25 @@ import java.util.Date;
 public class WriterService extends IntentService {
 
     /**
-     * Write data to space
+     * Write data
      */
     private static final String ACTION_PERSIST = "PERSIST_SENSOR_DATA";
 
-
+    /**
+     * Create an new instance ofe WriterService
+     */
     public WriterService() {
         super("WriterService");
     }
 
     /**
-     * Starts this service to perform action Foo with the given parameters. If
+     * Starts this service to persist sensor events data. If
      * the service is already performing a task this action will be queued.
      *
      * @see IntentService
+     * @param  context instance of current context
+     * @param datas array of SensorEvent to persist
      */
-    // TODO: Customize helper method
     public static void startActionPersist(Context context, SensorEvent[] datas) {
 
         Kinerecorder.data = datas;
@@ -43,6 +46,11 @@ public class WriterService extends IntentService {
         context.startService(intent);
     }
 
+    /**
+     * Create sensor data file path based on cow type and timestamp.
+     * For convenience with the cheap test device, files are written into Download directory
+     * @return
+     */
     protected static File buildPath() {
         if (Kinerecorder.filePath.isEmpty()) {
             File basePath = Environment.getExternalStoragePublicDirectory((Environment.DIRECTORY_DOWNLOADS));
@@ -55,6 +63,10 @@ public class WriterService extends IntentService {
         return new File(Kinerecorder.filePath);
     }
 
+    /**
+     * Retrive data from the application API and store
+     * @param intent
+     */
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
@@ -73,19 +85,16 @@ public class WriterService extends IntentService {
      * parameters.
      */
     private void handleActionPersist(SensorEvent[] datas) {
-        String filename = "data_raw.txt";
-
         Log.v("handleActionPersist", "Retrieve data");
         int count = 0;
 
         try {
-            File path = buildPath();
-            //   File file = new File(path, filename);
             File file = buildPath();
             boolean newFile = !file.exists();
 
             FileOutputStream fos = new FileOutputStream(file, true);
             DataOutputStream dos = new DataOutputStream(fos);
+            // the first line contain the cow type
             if (newFile) {
                 dos.writeChars(Kinerecorder.cowType);
             }
