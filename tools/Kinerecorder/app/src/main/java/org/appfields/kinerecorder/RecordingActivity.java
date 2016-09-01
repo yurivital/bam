@@ -10,21 +10,32 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Activity performing the recording of motions sensors values
+ * Displayed to user when a record is performing
  */
 public class RecordingActivity extends AppCompatActivity {
 
+    /**
+     * Number of dots to display
+     */
     int dots = 0;
+    /**
+     * Store the instance of the spinner
+     */
     private TextView spinner;
+    /**
+     * Store the instance of the timer
+     */
     private Timer timer = new Timer();
 
+    /**
+     * Initialize the activity
+     * @param savedInstanceState previous state, not used
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
-        setTitle(getText(R.string.text_recording));
 
+        setTitle(getText(R.string.text_recording));
         setContentView(R.layout.activity_recording);
         TextView textView = (TextView) findViewById(R.id.input_cow_type);
         textView.setText(Kinerecorder.cowType);
@@ -38,7 +49,7 @@ public class RecordingActivity extends AppCompatActivity {
                                           runOnUiThread(new Runnable() {
                                               @Override
                                               public void run() {
-                                                  displayAcceleration();
+                                                  moveSpinner();
 
                                               }
                                           });
@@ -47,6 +58,9 @@ public class RecordingActivity extends AppCompatActivity {
                 0, 1000);
     }
 
+    /**
+     * Stop the current recording on back button pressed
+     */
     @Override
     public void onBackPressed() {
         OnStopRecord(null);
@@ -55,19 +69,20 @@ public class RecordingActivity extends AppCompatActivity {
     /**
      * Stop the current record and go back to welcome page
      *
-     * @param v
+     * @param v instance of sender object
      */
     public void OnStopRecord(View v) {
         Kinerecorder.stopRecording();
-
 
         Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(intent);
         finish();
     }
 
-
-    private void displayAcceleration() {
+    /**
+     * change spinner step
+     */
+    private void moveSpinner() {
         dots = (++dots) % 7;
         String dottext = "";
         for (int i = 0; i < dots; i++) {

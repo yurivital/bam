@@ -14,29 +14,30 @@ import android.widget.Toast;
 
 /**
  * Created by yuriv on 31/08/2016.
+ * Encapsulate the recording into an Android Service
+ * Accelerometer are listened as a background task
  */
 public class RecordingService extends Service {
 
+    /**
+     * Instance of Recording Service specific Binder
+     */
     private final IBinder mBinder = new RecordingBinder();
-    Notification notification;
+    /**
+     * Store the instance of Recording
+     */
     Recording recording;
+
+    /**
+     * Store the instance of notification manager
+     */
     private NotificationManager mNM;
     // Unique Identification Number for the Notification.
     // We use it on Notification start, and to cancel it.
     private int NOTIFICATION = R.string.recording_started;
 
     /**
-     * Return the communication channel to the service.  May return null if
-     * clients can not bind to the service.  The returned
-     * {@link IBinder} is usually for a complex interface
-     * that has been <a href="{@docRoot}guide/components/aidl.html">described using
-     * aidl</a>.
-     * <p/>
-     * <p><em>Note that unlike other application components, calls on to the
-     * IBinder interface returned here may not happen on the main thread
-     * of the process</em>.  More information about the main thread can be found in
-     * <a href="{@docRoot}guide/topics/fundamentals/processes-and-threads.html">Processes and
-     * Threads</a>.</p>
+     * Return th instance of Servicebinder to etablish an communication between activity and service
      *
      * @param intent The Intent that was used to bind to this service,
      *               as given to {@link Context#bindService
@@ -52,6 +53,9 @@ public class RecordingService extends Service {
 
     }
 
+    /**
+     * Initialize the service and show the notificaiton
+     */
     @Override
     public void onCreate() {
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -60,6 +64,13 @@ public class RecordingService extends Service {
         showNotification();
     }
 
+    /**
+     * Run the service and start recording
+     * @param intent Instance of intent who want the service
+     * @param flags
+     * @param startId id
+     * @return
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("RecordService", "Received start id " + startId + ": " + intent);
@@ -68,6 +79,9 @@ public class RecordingService extends Service {
         return START_NOT_STICKY;
     }
 
+    /**
+     * Stop the recording when the service is destroyed
+     */
     @Override
     public void onDestroy() {
         // Cancel the persistent notification.

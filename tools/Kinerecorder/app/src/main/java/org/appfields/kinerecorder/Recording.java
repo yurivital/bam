@@ -9,6 +9,7 @@ import android.util.Log;
 
 /**
  * Created by yuriv on 31/08/2016.
+ * Implement motion sensors event recording
  */
 public class Recording {
     /**
@@ -25,8 +26,17 @@ public class Recording {
      * Index of last data
      */
     private static int data_pointer = 0;
+    /**
+     * Instance of sensor manager
+     */
     private SensorManager sensorManager;
+    /**
+     * Instance of motion sensor
+     */
     private Sensor sensor;
+    /**
+     * Instance of current application context
+     */
     private Context context;
     /**
      * Listen sensor values changes and write the to file
@@ -44,22 +54,32 @@ public class Recording {
             data_pointer = (++data_pointer % capacity);
         }
 
-        @Override
+                @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
         }
     };
 
+    /**
+     * Create an new instance of Recording object
+     * @param context instance of current application context
+     */
     public Recording(Context context) {
         this.context = context;
     }
 
+    /**
+     * Wire listener to accelerometer sensor
+     */
     public void start() {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this.listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    /**
+     * Unwire lister to accelerometer sensor and save last recorded data
+     */
     public void stop() {
         sensorManager.unregisterListener(listener, sensor);
         listener = null;
