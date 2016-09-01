@@ -9,10 +9,6 @@ import android.hardware.SensorEvent;
  */
 public class Kinerecorder {
 
-    /**
-     * Store the values of current set of datas
-     */
-    public static SensorEvent[] data;
 
     /**
      * Store the value of the current cow race

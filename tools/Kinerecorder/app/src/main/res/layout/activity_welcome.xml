@@ -41,10 +41,12 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_start_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="5dp"
+        android:enabled="false"
         android:onClick="StartRecord"
         android:text="@string/text_record" />
 </RelativeLayout>
