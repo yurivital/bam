@@ -51,15 +51,12 @@ public class Recording {
                 Log.i("SensorTraker", "Ask for persisting data");
                 WriterService.startActionPersist(context, data.clone());
                 // clear array
-                for(int i=0; i< data.length;i++)
-                {
-                    data[i] = null;
-                }
+                data = new SensorEvent[capacity];
             }
             data_pointer = (++data_pointer % capacity);
         }
 
-                @Override
+        @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
         }
@@ -67,6 +64,7 @@ public class Recording {
 
     /**
      * Create an new instance of Recording object
+     *
      * @param context instance of current application context
      */
     public Recording(Context context) {

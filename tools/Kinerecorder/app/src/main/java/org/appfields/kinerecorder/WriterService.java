@@ -19,6 +19,11 @@ import java.util.Date;
 public class WriterService extends IntentService {
 
     /**
+     * Store the values of current set of datas
+     */
+    private static SensorEvent[] data;
+
+    /**
      * Write data
      */
     private static final String ACTION_PERSIST = "PERSIST_SENSOR_DATA";
@@ -34,13 +39,13 @@ public class WriterService extends IntentService {
      * Starts this service to persist sensor events data. If
      * the service is already performing a task this action will be queued.
      *
+     * @param context instance of current context
+     * @param datas   array of SensorEvent to persist
      * @see IntentService
-     * @param  context instance of current context
-     * @param datas array of SensorEvent to persist
      */
     public static void startActionPersist(Context context, SensorEvent[] datas) {
 
-        Kinerecorder.data = datas;
+        data = datas;
         Intent intent = new Intent(context, WriterService.class);
         intent.setAction(ACTION_PERSIST);
         context.startService(intent);
@@ -49,7 +54,8 @@ public class WriterService extends IntentService {
     /**
      * Create sensor data file path based on cow type and timestamp.
      * For convenience with the cheap test device, files are written into Download directory
-     * @return
+     *
+     * @return Configured File instance
      */
     protected static File buildPath() {
         if (Kinerecorder.filePath.isEmpty()) {
@@ -65,6 +71,7 @@ public class WriterService extends IntentService {
 
     /**
      * Retrive data from the application API and store
+     *
      * @param intent
      */
     @Override
@@ -73,9 +80,7 @@ public class WriterService extends IntentService {
             final String action = intent.getAction();
             if (ACTION_PERSIST.equals(action)) {
                 Log.v(ACTION_PERSIST, "Retrieve data");
-                final SensorEvent[] datas = Kinerecorder.data;
-                Log.v(ACTION_PERSIST, "data len " + datas.length);
-                handleActionPersist(datas);
+                handleActionPersist();
             }
         }
     }
@@ -84,7 +89,7 @@ public class WriterService extends IntentService {
      * Handle action Foo in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionPersist(SensorEvent[] datas) {
+    private void handleActionPersist() {
         Log.v("handleActionPersist", "Retrieve data");
         int count = 0;
 
@@ -99,8 +104,9 @@ public class WriterService extends IntentService {
                 dos.writeChars(Kinerecorder.cowType);
             }
 
-            for (int i = 0; i < datas.length; i++) {
-                SensorEvent event = datas[i];
+
+            for (int i = 0; i < data.length; i++) {
+                SensorEvent event = data[i];
                 if (event == null) {
                     break;
                 }
