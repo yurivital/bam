@@ -102,8 +102,8 @@ public class WriterService extends IntentService {
             // the first line contain the cow type
             if (newFile) {
                 dos.writeChars(Kinerecorder.cowType);
+                dos.writeChar(13);
             }
-
 
             for (int i = 0; i < data.length; i++) {
                 SensorEvent event = data[i];
@@ -115,7 +115,6 @@ public class WriterService extends IntentService {
                 for (int j = 0; (j < event.values.length || j < 3); j++) {
                     dos.writeFloat(event.values[j]);
                 }
-                dos.writeChars("\r");
             }
             dos.flush();
             fos.flush();

@@ -2,7 +2,7 @@ package org.appfields.kinerecorder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.SensorEvent;
+import android.os.PowerManager;
 
 /**
  * Expose the application API
@@ -28,6 +28,7 @@ public class Kinerecorder {
      */
     private static Intent serviceIntent;
 
+    private static PowerManager.WakeLock lock;
 
     /**
      * Start the recoding service.
@@ -39,6 +40,9 @@ public class Kinerecorder {
         context = ctx;
         cowType = cow;
         filePath = "";
+        PowerManager powerManager =(PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        lock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Kinerecorder");
+        lock.acquire();
         serviceIntent = new Intent(context, RecordingService.class);
         context.startService(serviceIntent);
     }
@@ -47,7 +51,9 @@ public class Kinerecorder {
      * Stop the recording service
      */
     public static void stopRecording() {
+
         context.stopService(serviceIntent);
+        lock.release();
     }
 
 }
