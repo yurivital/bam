@@ -3,6 +3,7 @@ package org.appfields.kinerecorder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
+import android.provider.Settings;
 
 /**
  * Expose the application API
@@ -49,7 +50,12 @@ public class Kinerecorder {
         filePath = "";
         // Lock usage of CPU and start the recording service
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        lock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Kinerecorder");
+        lock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "Kinerecorder");
+        Settings.System.putInt(context.getContentResolver(),
+                Settings.System.SCREEN_BRIGHTNESS_MODE,
+                Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 1);
+
         lock.acquire();
         serviceIntent = new Intent(context, RecordingService.class);
         context.startService(serviceIntent);
@@ -59,9 +65,9 @@ public class Kinerecorder {
      * Stop the recording service
      */
     public static void stopRecording() {
-
         context.stopService(serviceIntent);
         lock.release();
+
     }
 
 }

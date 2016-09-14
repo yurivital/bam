@@ -44,6 +44,7 @@ public class Recording {
     SensorEventListener listener = new SensorEventListener() {
         @Override
         public synchronized void onSensorChanged(SensorEvent event) {
+
             data[data_pointer] = event;
             int modulo = data_pointer + 1 % capacity;
             Log.v("Tracker", "Pointer size =" + data_pointer + " Modulo = " + modulo);
@@ -54,6 +55,7 @@ public class Recording {
                 data = new SensorEvent[capacity];
             }
             data_pointer = (++data_pointer % capacity);
+
         }
 
         @Override

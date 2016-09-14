@@ -1,7 +1,9 @@
 package org.appfields.kinerecorder;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -27,8 +29,11 @@ public class RecordingActivity extends AppCompatActivity {
      */
     private Timer timer = new Timer();
 
+    private PowerManager.WakeLock lock;
+
     /**
      * Initialize the activity
+     *
      * @param savedInstanceState previous state, not used
      */
     @Override
@@ -40,6 +45,7 @@ public class RecordingActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.input_cow_type);
         textView.setText(Kinerecorder.cowType);
         spinner = (TextView) findViewById(R.id.spinner);
+        PowerManager powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
 
 
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -73,7 +79,6 @@ public class RecordingActivity extends AppCompatActivity {
      */
     public void OnStopRecord(View v) {
         Kinerecorder.stopRecording();
-
         Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(intent);
         finish();

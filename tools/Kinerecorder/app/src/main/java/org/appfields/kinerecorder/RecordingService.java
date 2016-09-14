@@ -28,7 +28,9 @@ public class RecordingService extends Service {
     /**
      * Store the instance of Recording
      */
-    Recording recording;
+    private Recording recording;
+
+    private BroadcastReceiver receiver;
 
     /**
      * Store the instance of notification manager
@@ -67,7 +69,7 @@ public class RecordingService extends Service {
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         filter.addAction(Intent.ACTION_BATTERY_LOW);
-        BroadcastReceiver receiver = new PowerReceiver();
+        receiver = new PowerReceiver();
         registerReceiver(receiver, filter);
     }
 
@@ -94,11 +96,13 @@ public class RecordingService extends Service {
      */
     @Override
     public void onDestroy() {
+        unregisterReceiver(receiver);
         // Cancel the persistent notification.
         recording.stop();
         // mNM.cancel(NOTIFICATION);
         stopForeground(true);
         // Tell the user we stopped.
+
         Toast.makeText(this, R.string.recording_service_stopped, Toast.LENGTH_SHORT).show();
     }
 
@@ -125,8 +129,8 @@ public class RecordingService extends Service {
                 .build();
 
         // Send the notification.
-        //   mNM.notify(NOTIFICATION, notification);
-        startForeground(555, notification);
+        mNM.notify(NOTIFICATION, notification);
+        startForeground(NOTIFICATION, notification);
     }
 
     /**
