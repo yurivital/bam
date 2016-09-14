@@ -18,14 +18,17 @@ import static org.appfields.kinerecorder.R.layout;
 public class WelcomeActivity extends AppCompatActivity {
 
     private EditText cow_type;
+    private EditText contact_number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_welcome);
         cow_type = (EditText) findViewById(id.input_cow_type);
+        contact_number = (EditText) findViewById(id.input_telephone);
         final Button btn_start = (Button) findViewById(id.btn_start_record);
-        cow_type.addTextChangedListener(new TextWatcher() {
+
+        TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -33,14 +36,21 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                btn_start.setEnabled(!s.toString().trim().isEmpty());
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                btn_start.setEnabled(isValid());
             }
-        });
+        };
+
+        cow_type.addTextChangedListener(watcher);
+        contact_number.addTextChangedListener(watcher);
+    }
+
+    public boolean isValid() {
+        return !contact_number.toString().trim().isEmpty() && !cow_type.toString().trim().isEmpty();
     }
 
 

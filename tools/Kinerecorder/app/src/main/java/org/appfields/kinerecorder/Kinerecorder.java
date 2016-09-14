@@ -15,6 +15,11 @@ public class Kinerecorder {
      */
     public static String cowType = "";
 
+    /***
+     * Store the value of the contact number receiving SMS
+     */
+    public static String contactNumber;
+
     /**
      * Store the value of current recording file path
      */
@@ -33,14 +38,17 @@ public class Kinerecorder {
     /**
      * Start the recoding service.
      *
-     * @param ctx Instance of application context
-     * @param cow Value of cow type
+     * @param ctx       Instance of application context
+     * @param cow       Value of cow type
+     * @param contactNb value of the number receiving SMS
      */
-    public static void startRecording(Context ctx, String cow) {
+    public static void startRecording(Context ctx, String cow, String contactNb) {
         context = ctx;
         cowType = cow;
+        contactNumber = contactNb;
         filePath = "";
-        PowerManager powerManager =(PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        // Lock usage of CPU and start the recording service
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         lock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Kinerecorder");
         lock.acquire();
         serviceIntent = new Intent(context, RecordingService.class);

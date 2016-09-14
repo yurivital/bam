@@ -31,6 +31,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:labelFor="@id/input_cow_type"
             android:text="@string/text_cow_type" />
 
         <EditText
@@ -38,6 +39,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/input_telephone"
+            android:text="@string/contact_number" />
+
+        <EditText
+            android:id="@+id/input_telephone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone" />
     </LinearLayout>
 
     <Button

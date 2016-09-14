@@ -7,4 +7,5 @@
     <string name="recording_started">Enregistrement en cours</string>
     <string name="recording_service_label">Kinerecorder</string>
     <string name="recording_service_stopped">Enregistrement stoppé</string>
+    <string name="contact_number">N° de contact</string>
 </resources>

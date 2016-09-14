@@ -4,8 +4,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -62,11 +64,16 @@ public class RecordingService extends Service {
         recording = new Recording(getBaseContext());
         // Display a notification about us starting.  We put an icon in the status bar.
         showNotification();
+
+        IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        BroadcastReceiver receiver = new PowerReceiver();
+        registerReceiver(receiver,filter);
     }
 
     /**
      * Run the service and start recording
-     * @param intent Instance of intent who want the service
+     *
+     * @param intent  Instance of intent who want the service
      * @param flags
      * @param startId id
      * @return
@@ -76,6 +83,7 @@ public class RecordingService extends Service {
         Log.i("RecordService", "Received start id " + startId + ": " + intent);
 
         recording.start();
+
         return START_NOT_STICKY;
     }
 
@@ -86,12 +94,12 @@ public class RecordingService extends Service {
     public void onDestroy() {
         // Cancel the persistent notification.
         recording.stop();
-        mNM.cancel(NOTIFICATION);
-
+        // mNM.cancel(NOTIFICATION);
+        stopForeground(true);
         // Tell the user we stopped.
         Toast.makeText(this, R.string.recording_service_stopped, Toast.LENGTH_SHORT).show();
     }
-    
+
 
     /**
      * Show a notification while this service is running.
@@ -115,7 +123,8 @@ public class RecordingService extends Service {
                 .build();
 
         // Send the notification.
-        mNM.notify(NOTIFICATION, notification);
+        //   mNM.notify(NOTIFICATION, notification);
+        startForeground(555, notification);
     }
 
     /**
