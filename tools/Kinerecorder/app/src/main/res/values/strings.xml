@@ -1,5 +1,7 @@
 <resources>
+    <!-- Application resources -->
     <string name="app_name">Kinerecorder</string>
+    <!-- Activity resources -->
     <string name="text_cow_type">Race de la vache</string>
     <string name="text_record">Enregistrer</string>
     <string name="text_recording">Enregistrement</string>
@@ -8,4 +10,8 @@
     <string name="recording_service_label">Kinerecorder</string>
     <string name="recording_service_stopped">Enregistrement stoppé</string>
     <string name="contact_number">N° de contact</string>
+    <!-- SMS resource -->
+    <string name="sms_user_poweroff">Vous avez appuyé la mise en veille. Arrêt de l\'enregistrement</string>
+    <string name="sms_recording_start">L\'enregistement est démarré</string>
+    <string name="sms_low_battery">La batterie est vide. Arrêt imminent de l\'enregistrement</string>
 </resources>

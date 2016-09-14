@@ -50,8 +50,10 @@ public class PowerReceiver extends BroadcastReceiver {
         Log.d("BroadCast", intent.getAction().toString());
         switch (intent.getAction()) {
             case Intent.ACTION_BATTERY_LOW:
+                SMSSender.sendLowBattery(context);
                 break;
             case Intent.ACTION_CLOSE_SYSTEM_DIALOGS:
+                SMSSender.sendUserPowerOff(context);
                 break;
             default:
                 break;

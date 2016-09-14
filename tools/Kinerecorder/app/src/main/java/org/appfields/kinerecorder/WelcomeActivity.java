@@ -60,7 +60,9 @@ public class WelcomeActivity extends AppCompatActivity {
      * @param v Sender view
      */
     public void StartRecord(View v) {
-        Kinerecorder.startRecording(getApplicationContext(), cow_type.getText().toString().trim());
+        Kinerecorder.startRecording(getApplicationContext(),
+                cow_type.getText().toString().trim(),
+                contact_number.getText().toString().trim());
         Intent intent = new Intent(getApplicationContext(), RecordingActivity.class);
         startActivity(intent);
         finish();

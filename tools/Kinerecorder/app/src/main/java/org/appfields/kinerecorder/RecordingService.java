@@ -66,8 +66,9 @@ public class RecordingService extends Service {
         showNotification();
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        filter.addAction(Intent.ACTION_BATTERY_LOW);
         BroadcastReceiver receiver = new PowerReceiver();
-        registerReceiver(receiver,filter);
+        registerReceiver(receiver, filter);
     }
 
     /**
@@ -83,6 +84,7 @@ public class RecordingService extends Service {
         Log.i("RecordService", "Received start id " + startId + ": " + intent);
 
         recording.start();
+        SMSSender.sendRecordingStarted(getApplicationContext());
 
         return START_NOT_STICKY;
     }
