@@ -12,27 +12,16 @@
 // loader version
 #define APP_VERSION "1.0.0"
 
+
 /**
   * Structure of one record
   */
- struct SensorRecord  {
-    union{
-        char  dataT[8];
-        long long timestamp;
-    };
-    union {
-        char  dataX [4];
-        float x;
-    };
-    union {
-        char  dataY [4];
-        float y;
-    };
-    union{
-        char  dataZ [4];
-        float z;
-    };
-}  ;
+struct SensorRecord  {
+    long long timestamp;
+    float x;
+    float y;
+    float z;
+} ;
 
 
 /**
@@ -87,23 +76,24 @@ SensorRecord* readRecord(QDataStream* stream)
         return nullptr;
     }
 
-    SensorRecord*  r= (SensorRecord*)  malloc(sizeof(SensorRecord));
+    SensorRecord*  r = nullptr;
+    char  dataT[8];
+    char  dataX [4];
+    char  dataY [4];
+    char  dataZ [4];
 
-    if(stream->readRawData(r->dataT, 8) == 8
-            && stream->readRawData(r->dataX,4) == 4
-            && stream->readRawData(r->dataY,4) == 4
-            && stream->readRawData(r->dataZ,4) == 4)
+    if(stream->readRawData(dataT, 8) == 8
+            && stream->readRawData(dataX,4) == 4
+            && stream->readRawData(dataY,4) == 4
+            && stream->readRawData(dataZ,4) == 4)
     {
-        r->timestamp =swap<long long>(r->dataT);
-        r->x = swap<float>(r->dataX);
-        r->y = swap<float>(r->dataY);
-        r->z = swap<float>(r->dataZ);
+        r = (SensorRecord*)  malloc(sizeof(SensorRecord));
+        r->timestamp =swap<long long>(dataT);
+        r->x = swap<float>(dataX);
+        r->y = swap<float>(dataY);
+        r->z = swap<float>(dataZ);
     }
-    else
-    {
-        delete r;
-        r = nullptr;
-    }
+
     return r;
 }
 
@@ -153,7 +143,7 @@ int main(int argc, char *argv[])
     ds.setByteOrder(QDataStream::BigEndian);
     qInfo("Cow type : %s", cowType.toLatin1().data());
     while ( ( record = readRecord(&ds)) != nullptr ) {
-         records.append(record);
+        records.append(record);
     }
     rawFile.close();
 
