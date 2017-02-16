@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 
     QStringList args = parser.positionalArguments();
     QString inputFilePath = args.at(0);
+    QString outputFilePath = args.at(1);
 
     QFile rawFile(inputFilePath);
     if( !rawFile.exists())
@@ -71,7 +72,7 @@ int main(int argc, char *argv[])
 
     qInfo("%d loaded records", records.length());
 
-    QFile jsOut("out.json");
+    QFile jsOut(outputFilePath);
     QByteArray json = bulkExport(cowType, records);
     jsOut.open(QIODevice::WriteOnly);
     jsOut.write(json);
