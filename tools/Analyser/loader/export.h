@@ -6,7 +6,7 @@
 
 QByteArray serialize(QString cowType, SensorRecord* r);
 
-QByteArray  bulkExport(QString cowType, const QList<SensorRecord*> &list);
-
+QByteArray  bulkExportJson(QString cowType, const QList<SensorRecord*> &list);
+QByteArray  bulkExportCsv(QString cowType, const QList<SensorRecord*> &list);
 
 #endif // EXPORT_H

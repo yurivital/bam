@@ -7,7 +7,7 @@
 #include <QVector2D>
 static QString bulkCmd = "{\"index\": { \"_index\": \"bam\", \"_type\" : \"cow\"}}\n";
 
-QByteArray  bulkExport(QString cowType, const QList<SensorRecord*> &list ){
+QByteArray  bulkExportJson(QString cowType, const QList<SensorRecord*> &list ){
 
     QByteArray result;
 
@@ -18,6 +18,19 @@ QByteArray  bulkExport(QString cowType, const QList<SensorRecord*> &list ){
         result.append("\n");
     }
 
+    return result;
+}
+
+QByteArray bulkExportCsv(QString cowType, const QList<SensorRecord*> &list ){
+    QByteArray result;
+    result.append("cow;timestamp;x;y;z\n");
+    foreach (SensorRecord* r, list) {
+        result.append(cowType + ";"
+                      + QString::number(r->timestamp/1000)  + ";"
+                      + QString::number(r->x) + ";"
+                      + QString::number(r->y) + ";"
+                      + QString::number(r->z) + "\n");
+    }
     return result;
 }
 

@@ -40,12 +40,19 @@ int main(int argc, char *argv[])
     parser.applicationDescription();
     parser.addPositionalArgument("input","Path of binary file to parse");
     parser.addPositionalArgument("output","Path of json file to Write");
-
+    parser.addOption({"f", "format", "output format (CSV or elastic for bulk elastic search format)"});
     parser.process(app);
 
     QStringList args = parser.positionalArguments();
+    if(args.length() < 2)
+    {
+        qInfo("usage : loader <fileIn> <fileOut> [<-f [csv|json]>]");
+        return 0;
+    }
+
     QString inputFilePath = args.at(0);
     QString outputFilePath = args.at(1);
+    QString format = parser.value("f");
 
     QFile rawFile(inputFilePath);
     if( !rawFile.exists())
@@ -73,9 +80,19 @@ int main(int argc, char *argv[])
     qInfo("%d loaded records", records.length());
 
     QFile jsOut(outputFilePath);
-    QByteArray json = bulkExport(cowType, records);
+    QByteArray data = NULL;
+    if(format == "json")
+    {
+        data    = bulkExportJson(cowType, records);
+    }
+    else
+    {
+        data    = bulkExportCsv(cowType, records);
+
+    }
+
     jsOut.open(QIODevice::WriteOnly);
-    jsOut.write(json);
+    jsOut.write(data);
     jsOut.flush();
     jsOut.close();
 
